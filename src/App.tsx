@@ -1,25 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import * as C from './App.styles'
+import {Charcter} from './components/Character'
+import {useCharacter} from './Hooks/useCharacters'
 
-function App() {
+const App = () => {
+  const char = useCharacter();
+
+  ///quando aperta numa tecla no teclado a funçao identifica se a tecla foi apertada
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    switch(e.code) {
+      //vai fazer com que clicada a tecla A mova para esquerda
+      case 'KeyA':
+        case 'ArrowLeft':
+          char.moveLeft();
+          break;
+         
+           //vai fazer com que clicada a tecla W mova para CIMA
+          case 'KeyW':
+            case 'ArrowUp':
+              char.moveUp();
+              break;
+            
+               //vai fazer com que clicada a tecla D mova para DIREITA
+              case 'KeyD':
+                case 'ArrowRight':
+                  char.moveRight();
+                  break;
+                  
+                   //vai fazer com que clicada a tecla S mova para CIMA
+                  case 'KeyS':
+                  case 'ArrowDown':
+                    char.moveDown();
+                  break;
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <C.Container>
+      <C.Map>
+        <Charcter x={char.x} y={char.y} side={char.side}/>
+      </C.Map>
+    </C.Container>
   );
 }
 
